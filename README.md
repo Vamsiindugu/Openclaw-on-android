@@ -154,7 +154,7 @@ For browser automation on Android, use **Lemur Browser** or **Kiwi Browser** (th
    ```
 3. Enable developer mode in `chrome://extensions`
 4. Load unpacked extension
-5. Configure gateway port (default: `18792`)
+5. Configure gateway port (default: `gateway_port + 3`)
 
 ---
 
@@ -162,13 +162,49 @@ For browser automation on Android, use **Lemur Browser** or **Kiwi Browser** (th
 
 Turn your OpenClaw into a Telegram bot:
 
-```bash
-openclaw telegram setup
+### Step 1: Create Bot
+
+1. Open Telegram and search for **@BotFather**
+2. Send `/newbot` and follow prompts
+3. Save the **bot token** (format: `123456789:ABCDefGHIjklMNOpqrsTUVwxyz`)
+
+### Step 2: Configure OpenClaw
+
+Edit `~/.openclaw/openclaw.json`:
+
+```json
+{
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "botToken": "YOUR_BOT_TOKEN_HERE",
+      "dmPolicy": "pairing"
+    }
+  }
+}
 ```
 
-You'll need:
-- Bot token from [@BotFather](https://t.me/BotFather)
-- Your Telegram user ID
+### Step 3: Start Gateway
+
+```bash
+openclaw gateway start
+```
+
+### Step 4: Pair Your Account
+
+1. Message your bot on Telegram
+2. Run the pairing command:
+   ```bash
+   openclaw pairing list telegram
+   openclaw pairing approve telegram <PAIRING_CODE>
+   ```
+
+### Finding Your Telegram User ID
+
+- Message **@userinfobot** on Telegram
+- Or check logs: `openclaw logs --follow` and look for `from.id`
+
+> 📖 **Full docs**: https://docs.openclaw.ai/channels/telegram
 
 ---
 
@@ -197,6 +233,7 @@ Browse more: **https://clawhub.com**
 | **Gateway won't start** | Check port: `lsof -i :18789` and kill process |
 | **Termux killed in background** | Enable wake lock: `termux-wake-lock` |
 | **Permission denied** | Run `termux-setup-storage` |
+| **command not found: openclaw** | Run `hash -r` or `source ~/.bashrc` |
 
 ### Get Help
 
@@ -223,7 +260,7 @@ Contributions welcome! 🙌
 ### Vamsi Indugu
 - 💌 Email: [vamsiindugu@gmail.com](mailto:vamsiindugu@gmail.com)
 - 🌐 Portfolio: [vamsiindugu.vercel.app](https://vamsiindugu.vercel.app/)
-- 🐱 GitHub: [@Vamsiindigu](https://github.com/Vamsiindigu/)
+- 🐱 GitHub: [@Vamsiindugu](https://github.com/Vamsiindugu/)
 - 💼 LinkedIn: [vamsi-indugu](https://www.linkedin.com/in/vamsi-indugu/)
 
 ---
