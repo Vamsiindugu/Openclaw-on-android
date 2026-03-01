@@ -7,7 +7,7 @@
 # ╚██████╔╝██║ ╚████║╚██████╗╚██████╔╝███████╗███████╗███████╗
 #  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝
 #                                                             
-#            OpenClaw Android/Termux Installer v1.2.0
+#            OpenClaw Android/Termux Installer v1.2.1
 #            Easiest way to run OpenClaw on Android
 #
 # ============================================================
@@ -19,7 +19,7 @@ set -euo pipefail
 # ========================
 # VERSION
 # ========================
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 # ========================
 # COLOR CODES
@@ -38,7 +38,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # ========================
 step() {
     echo ""
-    echo -e "${BOLD}[$1/9] $2${NC}"
+    echo -e "${BOLD}[$1/10] $2${NC}"
     echo "----------------------------------------"
 }
 
@@ -77,6 +77,21 @@ if command -v termux-wake-lock &>/dev/null; then
 fi
 
 bash "$SCRIPT_DIR/scripts/check-env.sh"
+
+# Check Phantom Process Killer (Android 12+)
+SDK_INT=$(getprop ro.build.version.sdk 2>/dev/null || echo "0")
+if [ "$SDK_INT" -ge 31 ] 2>/dev/null; then
+    PPK_VALUE=$(/system/bin/settings get global settings_enable_monitor_phantom_procs 2>/dev/null || echo "")
+    if [ "$PPK_VALUE" != "false" ]; then
+        echo ""
+        log_warn "Phantom Process Killer is ACTIVE on Android 12+"
+        echo "       Background processes may be killed by Android."
+        echo ""
+        echo "       To disable (requires ADB):"
+        echo "       adb shell \"settings put global settings_enable_monitor_phantom_procs false\""
+        echo ""
+    fi
+fi
 
 # ========================
 # STEP 2: Install Dependencies
@@ -137,6 +152,12 @@ else
     log_warn "termux-compat.h not found, skipping"
 fi
 
+# Copy argon2-stub.js (for code-server)
+if [ -f "$SCRIPT_DIR/patches/argon2-stub.js" ]; then
+    cp "$SCRIPT_DIR/patches/argon2-stub.js" "$HOME/.openclaw-android/patches/"
+    log_ok "argon2-stub.js installed"
+fi
+
 # Install spawn.h stub if missing (needed for koffi builds)
 if [ ! -f "$PREFIX/include/spawn.h" ]; then
     if [ -f "$SCRIPT_DIR/patches/spawn.h" ]; then
@@ -145,6 +166,13 @@ if [ ! -f "$PREFIX/include/spawn.h" ]; then
     fi
 else
     log_ok "spawn.h already exists"
+fi
+
+# Install systemctl stub
+if [ -f "$SCRIPT_DIR/patches/systemctl" ]; then
+    cp "$SCRIPT_DIR/patches/systemctl" "$PREFIX/bin/systemctl"
+    chmod +x "$PREFIX/bin/systemctl"
+    log_ok "systemctl stub installed"
 fi
 
 # ========================
@@ -164,6 +192,13 @@ if [ -f "$SCRIPT_DIR/update.sh" ]; then
     cp "$SCRIPT_DIR/update.sh" "$PREFIX/bin/oaupdate"
     chmod +x "$PREFIX/bin/oaupdate"
     log_ok "oaupdate command installed"
+fi
+
+# Copy uninstall script
+if [ -f "$SCRIPT_DIR/uninstall.sh" ]; then
+    cp "$SCRIPT_DIR/uninstall.sh" "$HOME/.openclaw-android/uninstall.sh"
+    chmod +x "$HOME/.openclaw-android/uninstall.sh"
+    log_ok "uninstall script installed"
 fi
 
 # ========================
@@ -186,6 +221,13 @@ if [ -f "$SCRIPT_DIR/patches/apply-patches.sh" ]; then
     bash "$SCRIPT_DIR/patches/apply-patches.sh"
 fi
 
+# Patch hardcoded paths
+if [ -f "$SCRIPT_DIR/patches/patch-paths.sh" ]; then
+    echo ""
+    echo "Patching hardcoded paths..."
+    bash "$SCRIPT_DIR/patches/patch-paths.sh"
+fi
+
 # ========================
 # STEP 8: Build Sharp (Optional)
 # ========================
@@ -205,9 +247,55 @@ echo "Installing clawhub..."
 
 if npm install -g clawdhub --no-fund --no-audit 2>/dev/null; then
     log_ok "clawhub installed"
+    
+    # Node.js v24+ doesn't bundle undici; clawhub needs it
+    CLAWHUB_DIR="$(npm root -g)/clawdhub"
+    if [ -d "$CLAWHUB_DIR" ] && ! (cd "$CLAWHUB_DIR" && node -e "require('undici')" 2>/dev/null); then
+        echo "Installing undici dependency for clawhub..."
+        if (cd "$CLAWHUB_DIR" && npm install undici --no-fund --no-audit); then
+            log_ok "undici installed for clawhub"
+        else
+            log_warn "undici installation failed (clawhub may not work)"
+        fi
+    fi
 else
     log_warn "clawhub installation failed (non-critical)"
     echo "Install manually: npm install -g clawdhub"
+fi
+
+# ========================
+# STEP 10: Verify Installation
+# ========================
+step 10 "Verifying Installation"
+
+if [ -f "$SCRIPT_DIR/tests/verify-install.sh" ]; then
+    bash "$SCRIPT_DIR/tests/verify-install.sh"
+fi
+
+# ========================
+# OPTIONAL: Code-server and AI Tools
+# ========================
+if [ -t 0 ]; then
+    echo ""
+    echo -e "${BOLD}Optional Components:${NC}"
+    echo ""
+    
+    # Ask about code-server
+    read -rp "Install code-server (browser IDE)? [y/N] " REPLY
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        if [ -f "$SCRIPT_DIR/scripts/install-code-server.sh" ]; then
+            bash "$SCRIPT_DIR/scripts/install-code-server.sh" install
+        fi
+    fi
+    
+    # Ask about AI tools
+    echo ""
+    read -rp "Install AI CLI tools (Claude, Gemini, Codex)? [y/N] " REPLY
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        if [ -f "$SCRIPT_DIR/scripts/install-ai-tools.sh" ]; then
+            bash "$SCRIPT_DIR/scripts/install-ai-tools.sh"
+        fi
+    fi
 fi
 
 # ========================
@@ -227,9 +315,11 @@ echo "  openclaw gateway start  # Start gateway"
 echo ""
 echo -e "${BOLD}CLI Commands:${NC}"
 echo ""
-echo "  oa          - OpenClaw shortcut"
-echo "  jarvis      - OpenClaw chat mode"
-echo "  oaupdate    - Update OpenClaw"
+echo "  oa            - OpenClaw shortcut"
+echo "  oa --status   - Show installation status"
+echo "  oa --update   - Update OpenClaw"
+echo "  oa --help     - Show all options"
+echo "  jarvis        - OpenClaw chat mode"
 echo ""
 echo -e "${BOLD}Useful Links:${NC}"
 echo ""
