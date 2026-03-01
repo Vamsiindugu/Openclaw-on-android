@@ -2,39 +2,10 @@
 
 ![Platform](https://img.shields.io/badge/Platform-Android_7%2B-green.svg)
 ![ARM64](https://img.shields.io/badge/Architecture-ARM64-blue.svg)
-![One-Line Install](https://img.shields.io/badge/Install-One_Line-ff69b4.svg)
+![Modular](https://img.shields.io/badge/Install-Modular-9cf.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-The **easiest way** to run OpenClaw on Android. One paste, fully configured. No root, no proot, no headaches. 🚀
-
----
-
-## 📚 Table of Contents
-
-- [📌 What is OpenClaw?](#-what-is-openclaw)
-- [✨ Features](#-features)
-- [⚡ Quick Start](#-quick-start)
-- [📋 Requirements](#-requirements)
-- [🔧 Installation Guide](#-installation-guide)
-- [🛠️ Commands & Aliases](#️-commands--aliases)
-- [🌐 Browser Extension](#-browser-extension)
-- [🤖 Telegram Bot Setup](#-telegram-bot-setup)
-- [🛒 Skills Marketplace](#-skills-marketplace)
-- [❓ Troubleshooting](#-troubleshooting)
-- [🤝 Contributing](#-contributing)
-- [📧 Contact](#-contact)
-
----
-
-## 📌 What is OpenClaw?
-
-OpenClaw is your **personal AI assistant** that runs locally on your device. Think JARVIS, but open-source and running on your Android phone. It can:
-
-- 🗣️ **Voice interactions** - Talk to your AI assistant
-- 🌐 **Browser automation** - Control Chrome/Chromium browsers
-- 💬 **Telegram bot** - Chat with your AI via Telegram
-- 🧠 **Skills system** - Extend capabilities with plugins
-- 🔒 **Privacy-first** - Your data stays on your device
+The **easiest way** to run OpenClaw on Android. Modular installer, native builds supported, no proot needed. 🚀
 
 ---
 
@@ -42,13 +13,13 @@ OpenClaw is your **personal AI assistant** that runs locally on your device. Thi
 
 | Feature | Description |
 |---------|-------------|
-| **🚀 One-Line Install** | Copy, paste, done. No manual configuration. |
-| **📱 Native Termux** | No proot-distro needed. Runs directly on Android. |
-| **⚡ Lightweight** | ~50MB storage vs 1-2GB with Ubuntu proot |
-| **⏱️ Fast Setup** | 3-10 minutes vs 20-30 minutes with proot |
+| **🔧 Modular Installer** | Clean, maintainable scripts for each step |
+| **🛠️ Native Builds** | Compatibility patches for koffi, sharp, and other native modules |
+| **⚡ One-Line Install** | Copy, paste, done |
+| **📱 Native Termux** | No proot-distro needed |
 | **🔋 Wake Lock** | Prevents background kills |
-| **🎨 Aliases** | `oa`, `jarvis`, `claw-status` shortcuts |
-| **🔧 Auto-config** | npm, Node.js memory limits, bashrc |
+| **🎨 CLI Tools** | `oa`, `jarvis`, `oaupdate` commands |
+| **📦 Auto-Dependencies** | cmake, clang, make, and 22+ packages |
 
 ---
 
@@ -63,14 +34,14 @@ pkg update -y && pkg upgrade -y
 # Step 2: Install curl (required for one-liner)
 pkg install curl -y
 
-# Step 3: Run the one-liner installer
+# Step 3: Run the installer
 curl -sL https://raw.githubusercontent.com/Vamsiindugu/Openclaw-on-Android/main/install.sh | bash
 ```
 
 After installation:
 
 ```bash
-source ~/.bashrc    # Activate aliases
+source ~/.bashrc    # Activate environment
 openclaw status     # Check system status
 openclaw init       # Run initial setup
 ```
@@ -128,70 +99,59 @@ openclaw gateway start
 
 ---
 
-## 🛠️ Commands & Aliases
+## 📁 Project Structure
 
-### Main Commands
+```
+Openclaw-on-Android/
+├── install.sh              # Main installer
+├── oa.sh                   # OpenClaw CLI wrapper
+├── update.sh               # Update script
+├── scripts/
+│   ├── check-env.sh        # Environment validation
+│   ├── install-deps.sh     # Package installation
+│   ├── setup-paths.sh      # Directory setup
+│   ├── setup-env.sh        # Environment variables
+│   └── build-sharp.sh      # Sharp image library build
+└── patches/
+    ├── bionic-compat.js    # Bionic libc compatibility
+    ├── termux-compat.h     # Termux build compatibility
+    ├── spawn.h             # posix_spawn stub for koffi
+    └── apply-patches.sh    # Apply patches post-install
+```
+
+---
+
+## 🛠️ CLI Commands
 
 | Command | Description |
 |---------|-------------|
-| `openclaw` | Main CLI |
-| `openclaw init` | Initialize configuration |
-| `openclaw status` | Check system status |
-| `openclaw gateway start` | Start gateway server |
-| `openclaw gateway stop` | Stop gateway server |
-| `openclaw chat` | Start interactive chat |
-| `openclaw --help` | Show all commands |
-
-### Aliases (Auto-added to .bashrc)
-
-| Alias | Command |
-|-------|---------|
-| `oa` | `openclaw` |
-| `ocl` | `openclaw` |
-| `jarvis` | `openclaw chat` |
-| `claw-status` | `openclaw status` |
-| `claw-start` | `openclaw gateway start` |
-| `claw-stop` | `openclaw gateway stop` |
+| `oa` | OpenClaw shortcut |
+| `oaupdate` | Update OpenClaw installation |
+| `jarvis` | OpenClaw chat mode |
+| `claw-status` | Check system status |
+| `claw-start` | Start gateway |
+| `claw-stop` | Stop gateway |
 
 ---
 
 ## 🌐 Browser Extension
 
-For browser automation on Android, use **Lemur Browser** or **Kiwi Browser** (they support Chrome extensions).
+For browser automation:
 
-### Setup Steps
-
-1. Install **Lemur Browser** from Play Store
-2. Install the OpenClaw Browser Extension:
-   ```bash
-   openclaw browser extension install
-   openclaw browser extension path  # Shows installed path
-   ```
-3. In Lemur Browser, go to `chrome://extensions`
-4. Enable **Developer mode** (toggle in top-right)
-5. Click **Load unpacked** → Select the extension directory
-6. Pin the extension for easy access
-7. Click the extension icon and configure:
-   - **Port**: `18792` (or `gateway_port + 3`)
-   - **Gateway Token**: Your token from `~/.openclaw/openclaw.json`
-
-### Usage
-
-- Open the tab you want to control
-- Click the extension icon (badge shows `ON` when attached)
-- OpenClaw can now control that tab
+1. Install **Lemur Browser** or **Kiwi Browser** from Play Store
+2. Run: `openclaw browser extension install`
+3. In browser: `chrome://extensions` → Enable Developer mode → Load unpacked
+4. Select the extension directory shown by the command
 
 ---
 
 ## 🤖 Telegram Bot Setup
 
-Turn your OpenClaw into a Telegram bot:
-
 ### Step 1: Create Bot
 
-1. Open Telegram and search for **@BotFather**
-2. Send `/newbot` and follow prompts
-3. Save the **bot token** (format: `123456789:ABCDefGHIjklMNOpqrsTUVwxyz`)
+1. Open Telegram, search **@BotFather**
+2. Send `/newbot`
+3. Follow prompts, save the **BOT TOKEN**
 
 ### Step 2: Configure OpenClaw
 
@@ -209,27 +169,13 @@ Edit `~/.openclaw/openclaw.json`:
 }
 ```
 
-### Step 3: Start Gateway
+### Step 3: Start & Pair
 
 ```bash
 openclaw gateway start
+openclaw pairing list telegram
+openclaw pairing approve telegram <CODE>
 ```
-
-### Step 4: Pair Your Account
-
-1. Message your bot on Telegram
-2. Run the pairing command:
-   ```bash
-   openclaw pairing list telegram
-   openclaw pairing approve telegram <PAIRING_CODE>
-   ```
-
-### Finding Your Telegram User ID
-
-- Message **@userinfobot** on Telegram
-- Or check logs: `openclaw logs --follow` and look for `from.id`
-
-> 📖 **Full docs**: https://docs.openclaw.ai/channels/telegram
 
 ---
 
@@ -253,13 +199,13 @@ Browse more: **https://clawhub.com**
 
 | Problem | Solution |
 |---------|----------|
-| **make: -j option requires positive integer** | Fixed in v1.1.2. Manual: `export JOBS=1` before npm install |
-| **cmake not found (koffi build fails)** | Install cmake: `pkg install cmake` then retry |
+| **make: -j option requires positive integer** | Fixed in v1.1.2+. Manual: `export JOBS=1` |
+| **cmake not found** | Install: `pkg install cmake` |
+| **spawn.h missing** | Installer provides stub in `$PREFIX/include/spawn.h` |
 | **npm install fails** | Run `pkg upgrade && npm cache clean --force` |
 | **Memory error** | Check `echo $NODE_OPTIONS` (should show 4096) |
 | **Gateway won't start** | Check port: `lsof -i :18789` and kill process |
 | **Termux killed in background** | Enable wake lock: `termux-wake-lock` |
-| **Permission denied** | Run `termux-setup-storage` |
 | **command not found: openclaw** | Run `hash -r` or `source ~/.bashrc` |
 
 ### Get Help
@@ -301,6 +247,26 @@ Contributions welcome! 🙌
 | **Discord** | https://discord.gg/clawd |
 | **ClawHub (Skills)** | https://clawhub.com |
 | **Termux (F-Droid)** | https://f-droid.org/packages/com.termux/ |
+
+---
+
+## 📜 Changelog
+
+### v1.2.0
+- Modular installer architecture
+- Compatibility patches (bionic-compat.js, termux-compat.h, spawn.h)
+- CLI tools: `oa`, `oaupdate`
+- JOBS=1 fix for native builds
+- cmake added to dependencies
+
+### v1.1.2
+- Fixed make -j error with JOBS=1
+
+### v1.1.1
+- Added cmake to dependencies
+
+### v1.1.0
+- Initial release
 
 ---
 
