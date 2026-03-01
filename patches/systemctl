@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # patches/systemctl - Termux stub (systemd unavailable)
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 #
 # Intercepts systemctl calls and handles them gracefully on Termux
 # For 'restart' commands, triggers openclaw reload via config.patch (SIGUSR1)

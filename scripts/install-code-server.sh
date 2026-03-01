@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # scripts/install-code-server.sh - Install or update code-server (browser IDE) on Termux
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 #
 # Workarounds applied:
 #   1. Replace bundled glibc node with Termux node

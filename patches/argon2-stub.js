@@ -1,6 +1,4 @@
 // patches/argon2-stub.js - JS stub replacing argon2 native module for Termux
-// Derived from: https://github.com/AidanPark/openclaw-android
-// License: MIT
 //
 // The native argon2 module requires glibc and cannot run on Termux (Bionic libc).
 // Since code-server is started with --auth none, argon2 is never actually called.

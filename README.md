@@ -1,49 +1,186 @@
-# OpenClaw on Android
+<div align="center">
 
-[![Android 7.0+](https://img.shields.io/badge/Android-7.0%2B-brightgreen)](https://github.com/Vamsiindugu/Openclaw-on-Android)
-[![Termux Required](https://img.shields.io/badge/Termux-Required-orange)](https://termux.dev)
-[![No proot-distro](https://img.shields.io/badge/proot--distro-Not%20Required-blue)](https://github.com/Vamsiindugu/Openclaw-on-Android)
-[![License](https://img.shields.io/github/license/Vamsiindugu/Openclaw-on-Android)](LICENSE)
+# 🤖 OpenClaw on Android
 
-**Run OpenClaw on Android with a single command — no proot, no Linux distro.**
+**Run OpenClaw on Android — No proot, No Linux Distro**
 
-Because Android deserves a shell.
+*The easiest way to run OpenClaw on Termux*
 
----
+[![Android 7.0+](https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge)](https://github.com/Vamsiindugu/Openclaw-on-Android)
+[![Termux](https://img.shields.io/badge/Termux-Required-orange?style=for-the-badge)](https://termux.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
 
-## Why OpenClaw on Android?
-
-An Android phone is a great environment for running an OpenClaw server:
-
-| Benefit | Description |
-|---------|-------------|
-| **Sufficient performance** | Even older phones have enough specs to run OpenClaw |
-| **Repurpose old phones** | Put that drawer phone to work. No need for a mini PC |
-| **Low power + built-in UPS** | Runs 24/7 on minimal power; battery keeps it alive through outages |
-| **No personal data at risk** | Use a factory-reset phone with no accounts logged in |
+[🚀 Quick Start](#-quick-start) · [📖 Full Guide](#-full-guide) · [🔧 Troubleshooting](#-troubleshooting) · [🤝 Contribute](CONTRIBUTING.md)
 
 ---
 
-## Comparison: This Project vs proot-distro
+*Because Android deserves a shell.*
+
+**Native Performance · ~50MB Storage · 3-10 Min Setup**
+
+</div>
+
+---
+
+## ✨ Why OpenClaw on Android?
+
+<table>
+<tr>
+<td width="50%">
+
+### 📱 Use Your Phone
+- Repurpose old phones
+- No mini PC needed
+- Low power consumption
+- Built-in UPS (battery)
+
+</td>
+<td width="50%">
+
+### ⚡ Native Performance
+- No proot overhead
+- Runs directly in Termux
+- Full OpenClaw features
+- 24/7 operation ready
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🔒 Private & Secure
+- No personal data at risk
+- Use factory-reset phones
+- Local-first operation
+- Your data stays on device
+
+</td>
+<td width="50%">
+
+### 🎯 Simple Setup
+- One command install
+- Automatic patches
+- Built-in verification
+- Easy updates
+
+</td>
+</tr>
+</table>
+
+---
+
+## 📊 vs proot-distro
 
 | Metric | proot-distro | This Project |
 |--------|--------------|--------------|
-| **Storage overhead** | 1-2GB (Linux + packages) | ~50MB |
-| **Setup time** | 20-30 min | 3-10 min |
+| **Storage** | 1-2GB | ~50MB |
+| **Setup Time** | 20-30 min | 3-10 min |
 | **Performance** | Slower (proot layer) | Native speed |
-| **Setup steps** | Install distro, configure Linux, install Node.js, fix paths... | Run one command |
+| **Complexity** | Multi-step | One command |
 
 ---
 
-## Features
+## 🚀 Quick Start
 
-### Core Features
-- ✅ **One-command install** — Just curl and bash
-- ✅ **No proot-distro** — Runs natively in Termux
-- ✅ **Compatibility patches** — Handles Termux/Android quirks
-- ✅ **Automatic updates** — `oa --update` handles everything
+### Prerequisites
+- Android 7.0+ (10+ recommended)
+- ~500MB free storage
+- Wi-Fi or mobile data
 
-### Compatibility Patches
+### Installation
+
+```bash
+# 1. Update Termux
+pkg update -y && pkg upgrade -y
+
+# 2. Install curl
+pkg install curl -y
+
+# 3. Run installer
+curl -sL https://raw.githubusercontent.com/Vamsiindugu/Openclaw-on-Android/main/install.sh | bash
+
+# 4. Activate environment
+source ~/.bashrc
+
+# 5. Start OpenClaw
+openclaw gateway start
+```
+
+### What the installer does:
+
+1. ✅ Validates environment (Termux, Node.js, storage)
+2. ✅ Installs 22+ dependencies (cmake, clang, git, etc.)
+3. ✅ Sets up paths and environment variables
+4. ✅ Applies compatibility patches
+5. ✅ Installs OpenClaw + clawhub
+6. ✅ Verifies installation
+7. ✅ Offers optional components (code-server, AI tools)
+
+---
+
+## 📖 Full Guide
+
+### Navigation
+
+| I want to... | Go to |
+|--------------|-------|
+| See all features | [✨ Features](#-features) |
+| Learn about patches | [🔧 Compatibility Patches](#-compatibility-patches) |
+| Use the CLI | [💻 CLI Commands](#-cli-commands) |
+| Fix an issue | [🔧 Troubleshooting](#-troubleshooting) |
+| See file structure | [📂 File Structure](#-file-structure) |
+| Contribute | [🤝 Contributing](CONTRIBUTING.md) |
+| See version history | [📜 Changelog](CHANGELOG.md) |
+
+---
+
+### ✨ Features
+
+<details open>
+<summary><b>🎯 Core Features</b></summary>
+
+| Feature | Description |
+|---------|-------------|
+| **One-Command Install** | Just curl and bash — everything handled |
+| **No proot-distro** | Runs natively in Termux |
+| **Automatic Patches** | Handles Termux/Android quirks |
+| **Built-in Verification** | Tests installation automatically |
+| **Easy Updates** | `oa --update` handles everything |
+| **Clean Uninstall** | `oa --uninstall` removes everything |
+
+</details>
+
+<details>
+<summary><b>📦 Optional Components</b></summary>
+
+| Component | Description |
+|-----------|-------------|
+| **code-server** | Browser-based VS Code IDE |
+| **Claude Code CLI** | Anthropic's AI coding assistant |
+| **Gemini CLI** | Google's AI assistant |
+| **Codex CLI** | OpenAI's coding assistant |
+| **ttyd** | Web terminal |
+| **dufs** | File server |
+
+</details>
+
+<details>
+<summary><b>🛡️ Android 12+ Support</b></summary>
+
+Detects and warns about **Phantom Process Killer** which can terminate background processes.
+
+**Fix:**
+```bash
+adb shell "settings put global settings_enable_monitor_phantom_procs false"
+```
+
+</details>
+
+---
+
+### 🔧 Compatibility Patches
+
 | Patch | Purpose |
 |-------|---------|
 | `bionic-compat.js` | Bionic libc compatibility for Node.js |
@@ -53,186 +190,62 @@ An Android phone is a great environment for running an OpenClaw server:
 | `systemctl` | Stub for systemd commands |
 | `patch-paths.sh` | Patches hardcoded Linux paths |
 
-### CLI Tools
-| Tool | Description |
-|------|-------------|
-| `oa` | OpenClaw manager (status, update, uninstall) |
-| `oaupdate` | Quick update command |
-| `jarvis` | OpenClaw chat mode |
+---
 
-### Optional Components
-- **code-server** — Browser-based VS Code IDE
-- **Claude Code CLI** — Anthropic's AI coding assistant
-- **Gemini CLI** — Google's AI assistant
-- **Codex CLI** — OpenAI's coding assistant
-- **ttyd** — Web terminal
-- **dufs** — File server
+### 💻 CLI Commands
+
+#### Main Commands
+
+```bash
+oa              # Show help
+oa --status     # Show detailed installation status
+oa --update     # Update OpenClaw and patches
+oa --uninstall  # Remove OpenClaw on Android
+oa --version    # Show version
+```
+
+#### OpenClaw Commands
+
+```bash
+openclaw status         # System status
+openclaw onboard        # Initial setup wizard
+openclaw gateway start  # Start gateway
+openclaw gateway stop   # Stop gateway
+openclaw update         # Update OpenClaw
+```
 
 ---
 
-## Requirements
+### 🔧 Troubleshooting
 
-- **Android 7.0+** (Android 10+ recommended)
-- **~500MB free storage**
-- **Wi-Fi or mobile data**
-
----
-
-## Installation
-
-### Step 1: Update Termux
-
-```bash
-pkg update -y && pkg upgrade -y
-```
-
-### Step 2: Install curl
-
-```bash
-pkg install curl -y
-```
-
-### Step 3: Run Installer
-
-```bash
-curl -sL https://raw.githubusercontent.com/Vamsiindugu/Openclaw-on-Android/main/install.sh | bash
-```
-
-That's it! The installer handles everything:
-- Environment validation
-- Dependencies installation (22+ packages)
-- Path setup
-- Environment configuration
-- Compatibility patches
-- OpenClaw installation
-- Clawhub (skill manager)
-- Optional components (code-server, AI tools)
-
-### Step 4: Activate Environment
+<details>
+<summary><b>❓ openclaw command not found</b></summary>
 
 ```bash
 source ~/.bashrc
 ```
 
-### Step 5: Start OpenClaw
-
+If still not found, reinstall:
 ```bash
-openclaw gateway start
+npm install -g openclaw@latest
 ```
 
----
+</details>
 
-## CLI Commands
-
-### Main Commands
-
-| Command | Description |
-|---------|-------------|
-| `oa` | OpenClaw manager |
-| `oa --status` | Show detailed installation status |
-| `oa --update` | Update OpenClaw and patches |
-| `oa --uninstall` | Remove OpenClaw on Android |
-| `oa --version` | Show version |
-| `oa --help` | Show help |
-
-### OpenClaw Commands
-
-| Command | Description |
-|---------|-------------|
-| `openclaw status` | System status |
-| `openclaw onboard` | Initial setup wizard |
-| `openclaw gateway start` | Start gateway |
-| `openclaw gateway stop` | Stop gateway |
-| `openclaw update` | Update OpenClaw |
-
----
-
-## File Structure
-
-```
-Openclaw-on-Android/
-├── install.sh              # Main installer
-├── oa.sh                   # CLI manager
-├── update.sh               # Thin update wrapper
-├── update-core.sh          # Core updater logic
-├── uninstall.sh            # Uninstaller
-├── scripts/
-│   ├── check-env.sh        # Environment validation
-│   ├── install-deps.sh     # Package installation
-│   ├── setup-paths.sh      # Directory setup
-│   ├── setup-env.sh        # Environment variables
-│   ├── build-sharp.sh      # Sharp image library build
-│   ├── install-ai-tools.sh # AI CLI tools installer
-│   └── install-code-server.sh # code-server installer
-├── patches/
-│   ├── bionic-compat.js    # Bionic libc compatibility
-│   ├── termux-compat.h     # Build compatibility headers
-│   ├── spawn.h             # posix_spawn stub
-│   ├── argon2-stub.js      # Argon2 JS stub
-│   ├── systemctl           # Systemd stub
-│   ├── apply-patches.sh    # Apply patches post-install
-│   └── patch-paths.sh      # Patch hardcoded paths
-└── tests/
-    └── verify-install.sh   # Installation verification
-```
-
----
-
-## Android 12+ Phantom Process Killer
-
-**Important:** Android 12+ may kill background processes like `openclaw gateway` without warning. You'll see `[Process completed (signal 9)]`.
-
-### Disable Phantom Process Killer
-
-1. Enable **Wireless debugging** in Developer options
-2. Pair your device:
-   ```bash
-   adb pair localhost:<PAIRING_PORT> <PAIRING_CODE>
-   ```
-3. Connect:
-   ```bash
-   adb connect localhost:<WIRELESS_DEBUGGING_PORT>
-   ```
-4. Disable the killer:
-   ```bash
-   adb shell "settings put global settings_enable_monitor_phantom_procs false"
-   ```
-
-This setting persists across reboots.
-
----
-
-## Battery Protection
-
-**Important:** Running a phone 24/7 at 100% charge can cause battery swelling. Limit the max charge:
-
-| Device | Setting Location |
-|--------|-----------------|
-| Samsung | Settings > Battery > Battery Protection → Maximum 80% |
-| Google Pixel | Settings > Battery > Battery Protection → ON |
-| Other | Search for "battery protection" or "charge limit" |
-
----
-
-## Troubleshooting
-
-### openclaw command not found
-
-```bash
-source ~/.bashrc
-```
-
-### npm install fails
+<details>
+<summary><b>❓ npm install fails</b></summary>
 
 ```bash
 pkg install nodejs-lts -y
 npm cache clean --force
 ```
 
-### Build errors
+</details>
 
-The installer sets these automatically, but if you see native build errors:
+<details>
+<summary><b>❓ Build errors</b></summary>
 
+Set environment variables:
 ```bash
 export JOBS=1
 export npm_config_jobs=1
@@ -240,13 +253,71 @@ export CFLAGS="-Wno-error=implicit-function-declaration"
 export CXXFLAGS="-Wno-error=implicit-function-declaration"
 ```
 
-### Gateway stops randomly
+</details>
 
-You're likely affected by the Phantom Process Killer (see above).
+<details>
+<summary><b>❓ Gateway stops randomly</b></summary>
+
+You're affected by Phantom Process Killer (Android 12+).
+
+**Fix:**
+```bash
+# Enable wireless debugging in Developer Options
+# Pair and connect via ADB
+adb shell "settings put global settings_enable_monitor_phantom_procs false"
+```
+
+</details>
 
 ---
 
-## Useful Links
+### 📂 File Structure
+
+```
+Openclaw-on-Android/
+├── install.sh              # Main installer
+├── oa.sh                   # CLI manager
+├── update.sh               # Update wrapper
+├── update-core.sh          # Core updater
+├── uninstall.sh            # Uninstaller
+│
+├── scripts/
+│   ├── check-env.sh        # Environment validation
+│   ├── install-deps.sh     # Package installation
+│   ├── setup-paths.sh      # Directory setup
+│   ├── setup-env.sh        # Environment variables
+│   ├── build-sharp.sh      # Sharp build
+│   ├── install-ai-tools.sh # AI CLI installer
+│   └── install-code-server.sh
+│
+├── patches/
+│   ├── bionic-compat.js    # Bionic compatibility
+│   ├── termux-compat.h     # Build headers
+│   ├── spawn.h             # posix_spawn stub
+│   ├── argon2-stub.js      # Argon2 stub
+│   ├── systemctl           # Systemd stub
+│   ├── apply-patches.sh    # Post-install patches
+│   └── patch-paths.sh      # Path patching
+│
+└── tests/
+    └── verify-install.sh   # Verification tests
+```
+
+---
+
+## 🔋 Battery Protection
+
+Running a phone 24/7 at 100% charge can cause battery swelling. Limit the max charge:
+
+| Device | Setting |
+|--------|---------|
+| Samsung | Settings > Battery > Battery Protection → Maximum 80% |
+| Google Pixel | Settings > Battery > Battery Protection → ON |
+| Others | Search "battery protection" or "charge limit" |
+
+---
+
+## 🔗 Useful Links
 
 | Resource | URL |
 |----------|-----|
@@ -257,23 +328,50 @@ You're likely affected by the Phantom Process Killer (see above).
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+We welcome contributions!
 
----
+| Way | How |
+|-----|-----|
+| 🐛 Bug Reports | [Open an issue](https://github.com/Vamsiindugu/Openclaw-on-Android/issues/new?template=bug_report.md) |
+| 💡 Feature Ideas | [Request a feature](https://github.com/Vamsiindugu/Openclaw-on-Android/issues/new?template=feature_request.md) |
+| 📝 Code | Fork, modify, submit PR |
 
-## License
-
-MIT License — See [LICENSE](LICENSE)
-
----
-
-## Credits
-
-- Derived from [AidanPark/openclaw-android](https://github.com/AidanPark/openclaw-android) with improvements
-- Inspired by [openclaw/openclaw](https://github.com/openclaw/openclaw)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Maintained by [Vamsi Indugu](https://github.com/Vamsiindugu)*
+## 📧 Contact
+
+**Vamsi Indugu**
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-vamsiindugu.vercel.app-blue)](https://vamsiindugu.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Vamsiindugu-black)](https://github.com/Vamsiindugu/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-vamsi--indugu-blue)](https://www.linkedin.com/in/vamsi-indugu/)
+
+---
+
+## 📄 License
+
+MIT License — use it, modify it, make it yours.
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+
+**Made with ❤️ and [OpenClaw](https://openclaw.ai)**
+
+---
+
+### ⚡ Quick Links
+
+[Report Bug](https://github.com/Vamsiindugu/Openclaw-on-Android/issues/new?template=bug_report.md) · [Request Feature](https://github.com/Vamsiindugu/Openclaw-on-Android/issues/new?template=feature_request.md) · [View Changelog](CHANGELOG.md)
+
+---
+
+*Run OpenClaw anywhere. Even on your phone.*
+
+</div>

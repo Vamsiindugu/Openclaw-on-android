@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # scripts/install-ai-tools.sh - Interactive AI CLI tools installer for Termux
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 #
 # Presents a checkbox UI for selecting AI CLI tools to install/update.
 # Non-interactive mode (piped input) skips selection automatically.

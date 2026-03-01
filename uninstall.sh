@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # uninstall.sh - Remove OpenClaw on Android from Termux
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 set -euo pipefail
 
 GREEN='\033[0;32m'

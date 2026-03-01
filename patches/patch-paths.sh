@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # patches/patch-paths.sh - Patch hardcoded Linux paths in OpenClaw modules
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 set -euo pipefail
 
 GREEN='\033[0;32m'

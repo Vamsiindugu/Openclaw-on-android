@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # update-core.sh - Lightweight updater for OpenClaw on Android (existing installations)
 # Called by update.sh (thin wrapper) or oaupdate command
-# Derived from: https://github.com/AidanPark/openclaw-android
-# License: MIT
 set -euo pipefail
 
 RED='\033[0;31m'
